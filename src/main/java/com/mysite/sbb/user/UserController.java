@@ -1,7 +1,5 @@
 package com.mysite.sbb.user;
 
-import com.mysite.sbb.question.Question;
-import com.mysite.sbb.question.QuestionForm;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
