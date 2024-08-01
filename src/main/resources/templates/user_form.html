@@ -2,14 +2,18 @@
 <div layout:fragment="content" class="container my-3">
 	<div class="my-3 border-bottom">
 		<div>
-			<h4>회원가입</h4>
+			<h4>정보 변경</h4>
 		</div>
 	</div>
 	<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
 		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		<div class="mb-3">
 			<label for="username" class="form-label">사용자ID</label>
-			<input type="text" th:field="*{username}" class="form-control">
+			<input type="text" th:field="*{username}" class="form-control" disabled>
+		</div>
+		<div class="mb-3">
+			<label for="name" class="form-label">성명</label>
+			<input type="text" th:field="*{name}" class="form-control" disabled>
 		</div>
 		<div class="mb-3">
 			<label for="password1" class="form-label">비밀번호</label>
@@ -23,7 +27,16 @@
 			<label for="email" class="form-label">이메일</label>
 			<input type="email" th:field="*{email}" class="form-control">
 		</div>
-		<button type="submit" class="btn btn-primary">회원가입</button>
+		<div class="mb-3">
+			<label for="time" class="form-label">등록일자</label>
+<!--			<div th:text="${#temporals.format(userCreateFrom.createDate)}, 'yyyy-MM-dd HH:mm')}"></div>-->
+			<input type="datetime-local" th:field="*{createDate}" class="form-control" disabled>
+		</div>
+
+		<div class="d-flex justify-content-center">
+			<button type="submit" class="btn btn-primary ">저장</button>
+		</div>
+
 	</form>
 </div>
 

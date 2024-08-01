@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,4 +26,10 @@ public class UserCreateForm {
 	@NotEmpty(message = "이메일은 필수항목입니다.")
 	@Email
 	private String email;
+
+	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
+	private LocalDateTime createDate;
+
+	@NotEmpty(message = "성명은 필수항목입니다.")
+	private String name;
 }

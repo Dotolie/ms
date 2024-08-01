@@ -41,7 +41,7 @@ public class UserController {
 		}
 
 		try {
-			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1());
+			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getName());
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -52,7 +52,7 @@ public class UserController {
 			return "signup_form";
 		}
 
-		return "redirect:/";
+		return "redirect:/user/list";
 	}
 
 	@GetMapping("/login")
@@ -69,15 +69,24 @@ public class UserController {
 		return "user_list";
 	}
 
+	@GetMapping(value = "/detail/{id}")
+	public String detail(Model model, UserCreateForm userCreateForm, @PathVariable("id") Long id) {
+		SiteUser siteUser = this.userService.getUser(id);
+		model.addAttribute("siteUser", siteUser);
+		return "user_detail";
+	}
+
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
-	public String questionModify(UserCreateForm userCreateForm, @PathVariable("id") Long id, Principal principal) {
+	public String userModify(UserCreateForm userCreateForm, @PathVariable("id") Long id, Principal principal) {
 		SiteUser siteUser = this.userService.getUser(id);
 		if (!siteUser.getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
 		userCreateForm.setEmail(siteUser.getEmail());
 		userCreateForm.setUsername(siteUser.getUsername());
+		userCreateForm.setCreateDate(siteUser.getCreateDate());
+		userCreateForm.setName(siteUser.getName());
 		return "user_form";
 	}
 }
