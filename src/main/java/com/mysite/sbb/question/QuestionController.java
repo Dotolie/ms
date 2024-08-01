@@ -2,6 +2,7 @@ package com.mysite.sbb.question;
 
 import java.security.Principal;
 
+import groovy.lang.GString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +33,7 @@ public class QuestionController {
 	private final QuestionService questionService;
 	private final UserService userService;
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -39,9 +41,10 @@ public class QuestionController {
 		Page<Question> paging = this.questionService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("act", "question");
 		return "question_list";
 	}
-
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 		Question question = this.questionService.getQuestion(id);

@@ -1,5 +1,7 @@
 package com.mysite.sbb.user;
 
+import com.mysite.sbb.question.Question;
+import com.mysite.sbb.question.QuestionForm;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -58,15 +60,18 @@ public class UserController {
 		return "login_form";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 					   @RequestParam(value = "kw", defaultValue = "") String kw) {
 		Page<SiteUser> paging = this.userService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("act", "user");
 		return "user_list";
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, UserCreateForm userCreateForm, @PathVariable("id") Long id) {
 		SiteUser siteUser = this.userService.getUser(id);
