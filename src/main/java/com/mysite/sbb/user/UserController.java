@@ -5,15 +5,18 @@ import com.mysite.sbb.question.QuestionForm;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
@@ -105,10 +108,17 @@ public class UserController {
 			return "user_form";
 		}
 		SiteUser siteUser = this.userService.getUser(id);
-		if (!siteUser.getUsername().equals(principal.getName())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		if (siteUser.getUserRole() == UserRole.USER ) {
+			if (!siteUser.getUsername().equals(principal.getName())) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+			}
 		}
 		this.userService.modify(siteUser, userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getUserRole());
-		return String.format("redirect:/user/detail/%s", id);
+		return String.format("redirect:/user/list");
+	}
+
+	@ExceptionHandler(value = ResponseStatusException.class)
+	public String responseStatusException(ResponseStatusException e) {
+		return "404";
 	}
 }
