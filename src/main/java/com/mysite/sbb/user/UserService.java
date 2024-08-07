@@ -58,4 +58,11 @@ public class UserService {
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 		return this.userRepository.findAllByKeyword(kw, pageable);
 	}
+
+	public void modify(SiteUser siteUser, String email, String password, UserRole userRole) {
+		siteUser.setEmail(email);
+		siteUser.setPassword(passwordEncoder.encode(password));
+		siteUser.setUserRole(userRole);
+		this.userRepository.save(siteUser);
+	}
 }

@@ -4,13 +4,16 @@
 
 
     <div class="card my-3" style="max-width: 70%">
+        <div class="card-header">
+            <h4 th:text="|사용자 : ${siteUser.id}|"></h4>
+        </div>
         <div class="row g-0">
-            <div class="col-md-4 mx-2 my-3">
+            <div class="col-lg-3 mx-2 my-3">
                 <img src="/images/img.png" alt="..." style="width: 12rem;">
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-8">
                 <div class="card-body mb-2">
-                    <h4 class="card-title" th:text="|번호 : ${siteUser.id}|"></h4>
+
                     <div class="card-text " th:text="|사용자ID : ${siteUser.username}|"></div>
                     <div class="card-text " th:text="|성명 : ${siteUser.name}|"></div>
                     <div class="card-text " th:text="|권한 : ${siteUser.userRole}|"></div>

@@ -96,29 +96,19 @@ public class UserController {
 	}
 
 
-	@PostMapping("/update")
-	public String update(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/modify/{id}")
+	public String userModify(@Valid UserCreateForm userCreateForm, BindingResult bindingResult, Principal principal,
+								 @PathVariable("id") Long id) {
 		if (bindingResult.hasErrors()) {
-			return "signup_form";
+			bindingResult. getFieldError("password1");
+			return "user_form";
 		}
-
-		if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
-			bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
-			return "signup_form";
+		SiteUser siteUser = this.userService.getUser(id);
+		if (!siteUser.getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
 		}
-
-		try {
-			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getName(), userCreateForm.getUserRole());
-		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-			return "signup_form";
-		} catch (Exception e) {
-			e.printStackTrace();
-			bindingResult.reject("signupFailed", e.getMessage());
-			return "signup_form";
-		}
-
-		return "redirect:/user/list";
+		this.userService.modify(siteUser, userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getUserRole());
+		return String.format("redirect:/user/detail/%s", id);
 	}
 }
