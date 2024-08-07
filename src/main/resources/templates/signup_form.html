@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout}" xmlns="http://www.w3.org/1999/html">
 <div layout:fragment="content" class="container my-3">
     <div class="container-xl px-4">
         <div class="row justify-content-center">
@@ -17,6 +17,16 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">성명</label>
                                 <input type="text" th:field="*{name}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="userRole" class="form-label">권한</label>
+                                <select th:field="*{userRole}" class="form-control" >
+                                    <option th:each="userRoleValue : ${T(com.mysite.sbb.user.UserRole).values()}"
+                                        th:value="${userRoleValue.name()}"
+                                        th:text="${userRoleValue.name()}">
+                                        val
+                                    </option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="password1" class="form-label">비밀번호</label>

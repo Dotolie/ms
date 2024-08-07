@@ -13,8 +13,9 @@
                     <h4 class="card-title" th:text="|번호 : ${siteUser.id}|"></h4>
                     <div class="card-text " th:text="|사용자ID : ${siteUser.username}|"></div>
                     <div class="card-text " th:text="|성명 : ${siteUser.name}|"></div>
-                    <div th:if="${siteUser.email != null}" th:text="|이메일 : ${siteUser.email}|"></div>
-                    <div th:text="${#temporals.format(siteUser.createDate, '등록일 : yyyy-MM-dd HH:mm')}"></div>
+                    <div class="card-text " th:text="|권한 : ${siteUser.userRole}|"></div>
+                    <div class="card-text " th:if="${siteUser.email != null}" th:text="|이메일 : ${siteUser.email}|"></div>
+                    <div class="card-text " th:text="${#temporals.format(siteUser.createDate, '등록일 : yyyy-MM-dd HH:mm')}"></div>
 <!--                    <div class="d-flex ">-->
 <!--                        <div class="badge bg-light text-dark p-2 text-start mt-4">-->
 <!--                            <div class="mb-2">-->

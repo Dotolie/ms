@@ -42,6 +42,7 @@ public class QuestionController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
 		model.addAttribute("act", "question");
+		model.addAttribute("name", "ywkim");
 		return "question_list";
 	}
 	@PreAuthorize("isAuthenticated()")

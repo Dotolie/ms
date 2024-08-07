@@ -44,7 +44,7 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item " th:classappend="${act}=='question'? active: ''" >
-        <a class="nav-link" th:href="@{/question/list}">
+        <a class="nav-link" th:href="@{/question/list}" sec:authorize="hasRole('ROLE_MANAGER')">
             <i class="fas fa-fw fa-table"></i>
             <span>Qeustion</span></a>
     </li>

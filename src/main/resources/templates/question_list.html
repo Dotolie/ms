@@ -12,6 +12,10 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -162,7 +166,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${name}">name</span>
                                 <img class="img-profile rounded-circle"
                                      th:src="@{/images/undraw_profile.svg}">
                             </a>
@@ -305,42 +309,29 @@
             document.getElementById('searchForm').submit();
         });
     </script>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">정말로 나가시려면 아래의 "로그아웃" 버튼을 누르세요
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary"  sec:authorize="isAuthenticated()" href="/user/logout">로그아웃</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script th:src="@{/js/sb-admin-2.min.js}"></script>
-
-    <!-- Page level plugins -->
-    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
-
-    <!-- Page level custom scripts -->
-    <script th:src="@{/js/demo/chart-area-demo.js}"></script>
-    <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
 </div>
 
 </html>
