@@ -6,6 +6,8 @@ import groovy.lang.GString;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,14 +37,14 @@ public class QuestionController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "kw", defaultValue = "") String kw) {
+	public String list(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+					   @RequestParam(value = "kw", defaultValue = "") String kw) {
 		log.info("page:{}, kw:{}", page, kw);
 		Page<Question> paging = this.questionService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
 		model.addAttribute("act", "question");
-		model.addAttribute("name", "ywkim");
+		model.addAttribute("name", userDetails.getUsername());
 		return "question_list";
 	}
 	@PreAuthorize("isAuthenticated()")

@@ -5,3 +5,72 @@ textarea {
 input[type=submit] {
 	margin-top: 10px;
 }
+
+.scroll-to-top {
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	width: 2.75rem;
+	height: 2.75rem;
+	text-align: center;
+	display: none;
+	color: #fff;
+	background: rgba(90,92,105,.5);
+	line-height: 46px;
+}
+
+.topbar-divider {
+	width: 0;
+	border-right: 1px solid #e3e6f0;
+	height: calc(4.375rem - 2rem);
+	margin: auto 1rem
+}
+
+.card-header {
+	background-color: #4e73df;
+	border: 1px solid #4e73df;
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+	color: #fff;
+}
+
+.icon-circle {
+	height: 2.5rem;
+	width: 2.5rem;
+	border-radius: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.dropdown-item {
+	display: block;
+	width: 100%;
+	padding: .25rem 1.5rem;
+	clear: both;
+	font-weight: 400;
+	color: #3a3b45;
+	text-align: inherit;
+	white-space: wrap;
+	background-color: transparent;
+	border-bottom: 1px solid #e3e6f0;
+
+}
+
+.text-gray-500 {
+	color: #b7b9cc !important
+}
+
+.font-weight-bold {
+	font-weight: 700 !important
+}
+
+footer.sticky-footer {
+	padding: 2rem 0;
+	flex-shrink: 0
+}
+
+footer.sticky-footer .copyright {
+	line-height: 1;
+	font-size: .8rem
+}

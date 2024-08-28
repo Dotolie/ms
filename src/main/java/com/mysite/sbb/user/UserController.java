@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,13 +67,13 @@ public class UserController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+	public String list(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(value = "page", defaultValue = "0") int page,
 					   @RequestParam(value = "kw", defaultValue = "") String kw) {
 		Page<SiteUser> paging = this.userService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
 		model.addAttribute("act", "user");
-		model.addAttribute("name", "ywkim");
+		model.addAttribute("name", userDetails.getUsername());
 		return "user_list";
 	}
 

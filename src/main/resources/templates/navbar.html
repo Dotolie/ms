@@ -1,23 +1,71 @@
-<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-	<div class="container-fluid">
+<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow py-0 px-2 sticky-top">
+
 		<a class="navbar-brand" href="/">
-			<img th:src="@{/images/logo.png}" alt="Logo" class="d-inline-block align-text-top">
-			MST
+			<img th:src="@{/images/ico.svg}" width="30" alt="Logo" class="d-inline-block align-text-top">
+			RMU 시험기
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<ul class="navbar-nav ms-auto">
 				<li class="nav-item">
-					<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/list}">사용자</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/question/list}">문의사항</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/user/signup}">회원가입</a>
 				</li>
+
+				<div class="topbar-divider d-none d-sm-block"></div>
+
+				<!-- Nav Item - User Information -->
+				<li class="nav-item dropdown no-arrow">
+					<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+					   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${name}">name</span>
+						<img class="img-profile rounded-circle"
+							 th:src="@{/images/undraw_profile.svg}" width="30">
+					</a>
+					<!-- Dropdown - User Information -->
+					<div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
+						 aria-labelledby="userDropdown">
+						<a class="dropdown-item" href="#">
+							<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+							Profile
+						</a>
+
+						<div class="dropdown-divider"></div>
+
+						<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+							<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+							Logout
+						</a>
+					</div>
+				</li>
 			</ul>
+		</div>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">정말로 나가시려면 아래의 "로그아웃" 버튼을 누르세요
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </nav>
