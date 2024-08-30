@@ -22,18 +22,20 @@
 	<!-- Core plugin JavaScript-->
 	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 	<!-- Custom scripts for all pages-->
-	<script th:src="@{/js/sb-admin-2.min.js}"></script>
+<!--	<script th:src="@{/js/sb-admin-2.min.js}"></script>-->
 	<!-- Page level plugins -->
 	<script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
 	<!-- Page level custom scripts -->
 	<script th:src="@{/js/demo/datatables-demo.js}"></script>
-
+	<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
 	<title>RMU Tester</title>
 </head>
 
 <body id="page-top">
-
+	<div class="container-fluid   mx-0 py-3">
+		<h1 class="text-center">RMU 시험기</h1>
+	</div>
 	<!-- 네비게이션바 -->
 <!--	<nav th:replace="~{navbar :: navbarFragment}"></nav>-->
 	<!-- 기본 템플릿 안에 삽입될 내용 Start -->
@@ -47,6 +49,37 @@
 		<i class="fas fa-angle-up"></i>
 	</a>
 
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">정말로 나가시려면 아래의 "로그아웃" 버튼을 누르세요
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="sticky-footer bg-light">
+		<div class="container my-auto">
+			<div class="copyright text-center my-auto">
+				<span>Copyright &copy; MSTechEng 2024</span>
+			</div>
+		</div>
+	</footer>
+	<!-- End of Footer -->
 
 	<!-- 자바스크립트 Start -->
 	<th:block layout:fragment="script"></th:block>
