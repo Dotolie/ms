@@ -111,9 +111,26 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-xl-4">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                        Donut Chart
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-pie pt-4">
+                            <canvas id="piechart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- End of Main Content -->
+
+    <div th:replace="~{foot :: footFragment}"></div>
 <!--    <script src="js/demo/chart-pie-demo.js"></script>-->
     <script>
         const ctx = document.querySelector('#myPieChart');
@@ -145,6 +162,50 @@
                 },
                 cutoutPercentage: 80,
             },
+        })
+
+        $(function () {
+            var backgroundColors = [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ];
+
+            $.getJSON("/rest/pie-data", function(json) {
+                new Chart(document.getElementById("piechart"), {
+                    type: 'pie',
+                    data: {
+                        labels: json[0],
+                        datasets: [
+                            {
+                            data: json[1],
+                            backgroundColor: backgroundColors,
+                            }
+                        ]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
+                        },
+                        cutoutPercentage: 70,
+                    }
+                });
+            });
         })
     </script>
 </div>
