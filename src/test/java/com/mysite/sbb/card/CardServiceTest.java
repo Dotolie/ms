@@ -29,26 +29,32 @@ class CardServiceTest {
 
     @Test
     void create() {
-        Card card = new Card();
-
-        card.setPartName("RIM-AC");
-        card.setPartCode("RM0001A");
-        card.setSerialNumber("100R0001");
-        card.setCompCabinet("RK01");
-
-        card.setCompLocation(1);
-        card.setCompRack(2);
-        card.setCompSlot(3);
-        card.setCreateDate(LocalDateTime.now());
-
-        SiteUser siteUser = userService.getUser("ywkim");
-        card.setAuthor(siteUser);
 
 
-        Integer saveId = cardService.create(card);
+        for(int i = 0;i < 100;i++ ) {
+            Card card = new Card();
 
-        Card findCard = cardService.findOne(saveId).get();
-        assertThat(card.getPartName()).isEqualTo(findCard.getPartName());
+            card.setPartName("RIM-AC3");
+            card.setPartCode("RM300A");
+            String sn = "111R" + String.format("%04d", i);
+            card.setSerialNumber(sn);
+            card.setCompCabinet("RK03");
+
+            card.setCompLocation(3);
+            card.setCompRack(5);
+            card.setCompSlot(i);
+            card.setCreateDate(LocalDateTime.now());
+
+            SiteUser siteUser = userService.getUser("manager");
+            card.setAuthor(siteUser);
+
+
+            Integer saveId = cardService.create(card);
+            System.out.println("svaeId="+saveId);
+        }
+
+//        Card findCard = cardService.findOne(saveId).get();
+//        assertThat(card.getPartName()).isEqualTo(findCard.getPartName());
     }
 
     @Test

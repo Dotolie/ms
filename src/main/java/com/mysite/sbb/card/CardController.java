@@ -37,9 +37,12 @@ public class CardController {
         log.info("page:{}, kw:{}", page, kw);
         Page<Card> paging = this.cardService.getList(page, kw);
 
+
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
         model.addAttribute("name", userDetails.getUsername());
+
+
         return "card_list";
     }
 

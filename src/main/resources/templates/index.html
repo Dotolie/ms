@@ -95,7 +95,7 @@
             </div>
 
             <!-- Donut Chart -->
-            <div class="col-xl-4 col-lg-5">
+            <div class="col-xl-4 col-md-6">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3">
@@ -112,15 +112,15 @@
                 </div>
             </div>
 
-            <div class="col-xl-4">
+            <div class="col-xl-4 col-md-6">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3">
-                        Donut Chart
+                        카드 종류 및 수량
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <div class="chart-pie pt-4">
+                        <div class="chart-pie">
                             <canvas id="piechart"></canvas>
                         </div>
                     </div>
@@ -175,14 +175,14 @@
                 'rgb(201, 203, 207)'
             ];
 
-            $.getJSON("/rest/pie-data", function(json) {
+            $.getJSON("/rest/partNameChart", function(json) {
                 new Chart(document.getElementById("piechart"), {
                     type: 'pie',
                     data: {
-                        labels: json[0],
+                        labels: json.label,
                         datasets: [
                             {
-                            data: json[1],
+                            data: json.data,
                             backgroundColor: backgroundColors,
                             }
                         ]
@@ -190,7 +190,7 @@
                     options: {
                         maintainAspectRatio: false,
                         legend: {
-                            display: false
+                            display: true
                         },
                         tooltips: {
                             backgroundColor: "rgb(255,255,255)",
@@ -202,7 +202,7 @@
                             displayColors: false,
                             caretPadding: 10,
                         },
-                        cutoutPercentage: 70,
+                        cutoutPercentage: 80,
                     }
                 });
             });

@@ -2,6 +2,7 @@ package com.mysite.sbb.card;
 
 import com.mysite.sbb.question.Question;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CardService {
@@ -36,5 +38,13 @@ public class CardService {
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return this.cardRepository.findAllByKeyword(kw, pageable);
+    }
+
+    public Long getCountByPartName(String partName) {
+        return this.cardRepository.countByPartName(partName);
+    }
+    public List<String> getPartNameDistinctList() {
+
+        return this.cardRepository.findDistinct();
     }
 }

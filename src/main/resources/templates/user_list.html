@@ -42,7 +42,7 @@
                 <tr class="text-center" th:each="user, loop : ${paging}">
                     <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
                     <td class="text-start">
-                        <a th:href="@{|/user/modify/${user.id}|}" th:text="${user.username}"></a>
+                        <a th:href="@{|/user/detail/${user.id}|}" th:text="${user.username}"></a>
                     </td>
                     <td th:text="${user.name}"></td>
                     <td th:text="${user.userRole}"></td>
