@@ -46,7 +46,7 @@ public class UserController {
 		}
 
 		try {
-			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getName(), userCreateForm.getUserRole());
+			this.userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getUserRole());
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -67,13 +67,13 @@ public class UserController {
 
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
-	public String list(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+	public String list(Model model, Principal principal, @RequestParam(value = "page", defaultValue = "0") int page,
 					   @RequestParam(value = "kw", defaultValue = "") String kw) {
 		Page<SiteUser> paging = this.userService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
 		model.addAttribute("act", "user");
-		model.addAttribute("name", userDetails.getUsername());
+		model.addAttribute("name", principal.getName());
 		return "user_list";
 	}
 
@@ -95,7 +95,6 @@ public class UserController {
 		userCreateForm.setEmail(siteUser.getEmail());
 		userCreateForm.setUsername(siteUser.getUsername());
 		userCreateForm.setCreateDate(siteUser.getCreateDate());
-		userCreateForm.setName(siteUser.getName());
 		userCreateForm.setUserRole(siteUser.getUserRole());
 		return "user_form";
 	}
@@ -106,7 +105,7 @@ public class UserController {
 	public String userModify(@Valid UserCreateForm userCreateForm, BindingResult bindingResult, Principal principal,
 								 @PathVariable("id") Long id) {
 		if (bindingResult.hasErrors()) {
-			bindingResult. getFieldError("password1");
+			bindingResult.getFieldError("password1");
 			return "user_form";
 		}
 		SiteUser siteUser = this.userService.getUser(id);

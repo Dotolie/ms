@@ -1,0 +1,21 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+    <h2>hello</h2>
+<!--    <div class="container-xl px-4">-->
+
+        <form th:action="@{/upload}" method="post" th:object="${scenarioForm}" enctype="multipart/form-data">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div class="mb-3">
+                <label for="name" class="form-label">상품명</label>
+                <input type="text" th:field="*{name}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">파일선택</label>
+                <input type="file" multiple="multiple" th:field="*{files}" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary ">등록</button>
+        </form>
+<!--    </div>-->
+</div>
+</html>

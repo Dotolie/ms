@@ -14,8 +14,7 @@
             <div class="col-lg-8">
                 <div class="card-body mb-2">
 
-                    <div class="card-text " th:text="|사용자ID : ${siteUser.username}|"></div>
-                    <div class="card-text " th:text="|성명 : ${siteUser.name}|"></div>
+                    <div class="card-text " th:text="|사용자 : ${siteUser.username}|"></div>
                     <div class="card-text " th:text="|권한 : ${siteUser.userRole}|"></div>
                     <div class="card-text " th:if="${siteUser.email != null}" th:text="|이메일 : ${siteUser.email}|"></div>
                     <div class="card-text " th:text="${#temporals.format(siteUser.createDate, '등록일 : yyyy-MM-dd HH:mm')}"></div>

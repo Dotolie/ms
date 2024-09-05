@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class UserCreateForm {
-	@Size(min = 3, max = 25)
-	@NotEmpty(message = "사용자ID는 필수항목입니다.")
+	@Size(min = 2, max = 25)
+	@NotEmpty(message = "사용자는 필수항목입니다.")
 	private String username;
 
 	@NotEmpty(message = "비밀번호는 필수항목입니다.")
@@ -33,8 +33,6 @@ public class UserCreateForm {
 	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime createDate;
 
-	@NotEmpty(message = "성명은 필수항목입니다.")
-	private String name;
 
 	@NotNull(message = "권한은 필수항목입니다.")
 	private UserRole userRole;

@@ -29,7 +29,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
             + "   or q.partCode like %:kw% "
             + "   or q.serialNumber like %:kw% "
             + "   or q.compCabinet like %:kw% "
-            + "   or u1.username like %:kw% "
-            + "   or u1.name like %:kw% ")
+            + "   or u1.username like %:kw% ")
     Page<Card> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
 }

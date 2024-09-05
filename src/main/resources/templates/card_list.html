@@ -54,7 +54,7 @@
                     <td th:text="${card.getCompLocation()}"></td>
                     <td th:text="${card.getCompRack()}"></td>
                     <td th:text="${card.getCompSlot()}"></td>
-                    <td th:text="${card.getAuthor().getName()}"></td>
+                    <td th:text="${card.getAuthor().getUsername()}"></td>
                     <td th:text="${#temporals.format(card.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                 </tr>
                 </tbody>

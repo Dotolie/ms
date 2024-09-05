@@ -31,8 +31,7 @@
                 <thead class="table-dark">
                 <tr class="text-center">
                     <th>번호</th>
-                    <th>사용자ID</th>
-                    <th style="width:20%">성명</th>
+                    <th>사용자</th>
                     <th>권한</th>
                     <th>이메일</th>
                     <th>등록일</th>
@@ -44,7 +43,6 @@
                     <td class="text-start">
                         <a th:href="@{|/user/detail/${user.id}|}" th:text="${user.username}"></a>
                     </td>
-                    <td th:text="${user.name}"></td>
                     <td th:text="${user.userRole}"></td>
                     <td><span th:if="${user.email != null}" th:text="${user.email}"></span></td>
                     <td th:text="${#temporals.format(user.createDate, 'yyyy-MM-dd HH:mm')}"></td>

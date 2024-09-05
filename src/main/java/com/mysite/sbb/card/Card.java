@@ -18,6 +18,8 @@ public class Card {
     private Integer id;
     private String partName;
     private String partCode;
+
+    @Column(unique = true)
     private String serialNumber;
     private String compCabinet;
 

@@ -20,10 +20,10 @@
                 </thead>
                 <tbody>
                 <tr class="text-center" th:each="procedure, loop : ${paging}">
-                    <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-                    <td class="text-start">
-                        <a th:href="@{|/scenario/${procedure.id}|}" th:text="${procedure.title}"></a>
+                    <td class="text-center" >
+                        <a th:href="@{|/scenario/${procedure.id}|}" th:text="${loop.index + (paging.number * paging.size) }"></a>
                     </td>
+                    <td th:text="${procedure.title}"></td>
                     <td><span th:if="${procedure.setValue != null}"
                               th:text="${procedure.setValue}"></span>
                     </td>

@@ -34,22 +34,23 @@ class CardServiceTest {
         for(int i = 0;i < 100;i++ ) {
             Card card = new Card();
 
-            card.setPartName("RIM-AC3");
-            card.setPartCode("RM300A");
-            String sn = "111R" + String.format("%04d", i);
+            card.setPartName("RIM-DC");
+            card.setPartCode("RM200A");
+            String sn = "107R" + String.format("%04d", i);
             card.setSerialNumber(sn);
-            card.setCompCabinet("RK03");
+            card.setCompCabinet("RK01");
 
-            card.setCompLocation(3);
-            card.setCompRack(5);
-            card.setCompSlot(i);
+            card.setCompLocation(5);
+            card.setCompRack(i);
+            card.setCompSlot(8);
             card.setCreateDate(LocalDateTime.now());
 
-            SiteUser siteUser = userService.getUser("manager");
+            SiteUser siteUser = this.userService.getUser("품질보증");
             card.setAuthor(siteUser);
-
-
-            Integer saveId = cardService.create(card);
+            
+            Integer saveId = this.cardService.create(card);
+            
+            
             System.out.println("svaeId="+saveId);
         }
 

@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ import java.util.List;
 @Controller
 public class ApiController {
     @GetMapping("/scenario")
-    public String Scenario(Model model,  @RequestParam(value = "page", defaultValue = "0") int page,
+    public String Scenario(Model model, Principal principal, @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "file", defaultValue = "" ) String name) {
         Scenario scenario;
 
@@ -54,7 +57,7 @@ public class ApiController {
         assert scenario != null;
         List<Procedure> procedures = scenario.getProcedure();
 
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, 20);
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), procedures.size());
 
@@ -66,6 +69,7 @@ public class ApiController {
 
         model.addAttribute("paging", paging);
         model.addAttribute("scenario", scenario.getScenario());
+        model.addAttribute("name", principal.getName());
 
         System.out.println(scenario);
 

@@ -32,15 +32,15 @@ public class CardController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
-    public String list(@AuthenticationPrincipal UserDetails userDetails,  Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+    public String list( Model model, Principal principal, @RequestParam(value = "page", defaultValue = "0") int page,
                        @RequestParam(value = "kw", defaultValue = "") String kw) {
         log.info("page:{}, kw:{}", page, kw);
-        Page<Card> paging = this.cardService.getList(page, kw);
 
+        Page<Card> paging = this.cardService.getList(page, kw);
 
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
-        model.addAttribute("name", userDetails.getUsername());
+        model.addAttribute("name", principal.getName());
 
 
         return "card_list";
@@ -56,6 +56,7 @@ public class CardController {
     @PostMapping("/create")
     public String cardCreate(@Valid CardForm cardForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
+            log.info("err=" + bindingResult.getGlobalError());
             return "card_form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
