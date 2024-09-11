@@ -13,13 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequestMapping("/card")
@@ -44,6 +45,25 @@ public class CardController {
 
 
         return "card_list";
+    }
+
+
+    @GetMapping("/list2")
+    public String list2(Model model, @RequestParam(value = "kw", defaultValue = "") String kw) {
+        model.addAttribute("kw", kw);
+        return "card_list2";
+    }
+
+
+    @PostMapping("/list2")
+    public String response(Model model, @ModelAttribute(value = "kw") String kw, @ModelAttribute(value="page") Integer page) {
+
+        log.info("kw {}, page {}", kw,page);
+        Page<Card> paging = this.cardService.getList(page, kw);
+
+        model.addAttribute("paging", paging);
+
+        return "card_table";
     }
 
     @PreAuthorize("isAuthenticated()")

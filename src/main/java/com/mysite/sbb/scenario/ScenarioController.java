@@ -1,11 +1,16 @@
 package com.mysite.sbb.scenario;
 
+import com.mysite.sbb.card.Card;
+import com.mysite.sbb.user.SiteUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
+@RequestMapping("/test")
 @RequiredArgsConstructor
 @Controller
 public class ScenarioController {
@@ -46,6 +53,21 @@ public class ScenarioController {
                 }
         }
 
-        return "redirect:/";
+        return "redirect:/test/list";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list")
+    public String list(Model model, Principal principal, @RequestParam(value = "page", defaultValue = "0") int page,
+                       @RequestParam(value = "kw", defaultValue = "") String kw) {
+        log.info("page:{}, kw:{}", page, kw);
+
+        Page<Scenario> paging = this.scenarioService.getList(page, kw);
+        model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
+        model.addAttribute("name", principal.getName());
+
+
+        return "scenario_list";
     }
 }

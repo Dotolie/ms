@@ -1,13 +1,21 @@
 package com.mysite.sbb.scenario;
 
+import com.mysite.sbb.card.Card;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -45,6 +53,7 @@ public class ScenarioService {
                 .orgNm(origName)
                 .savedNm(savedName)
                 .savedPath(savedPath)
+                .createDate(LocalDateTime.now())
                 .build();
 
         // 실제로 로컬에 uuid를 파일명으로 저장
@@ -53,5 +62,12 @@ public class ScenarioService {
         // 데이터베이스에 파일 정보 저장
         Scenario temp = this.scenarioRepository.save(scenario);
 
+    }
+
+    public Page<Scenario> getList(int page, String kw) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return this.scenarioRepository.findAllByKeyword(kw, pageable);
     }
 }

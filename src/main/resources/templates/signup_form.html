@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout}" >
+<html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
     <div class="container-xl px-4">
         <div class="row justify-content-center">
@@ -16,10 +16,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="userRole" class="form-label">권한</label>
-                                <select th:field="*{userRole}" class="form-control" >
+                                <select th:field="*{userRole}" class="form-control">
                                     <option th:each="userRoleValue : ${T(com.mysite.sbb.user.UserRole).values()}"
-                                        th:value="${userRoleValue.name()}"
-                                        th:text="${userRoleValue.name()}">
+                                            th:value="${userRoleValue.name()}"
+                                            th:text="${userRoleValue.name()}">
                                         val
                                     </option>
                                 </select>
@@ -36,8 +36,11 @@
                                 <label for="password2" class="form-label">비밀번호 확인</label>
                                 <input type="password" th:field="*{password2}" class="form-control">
                             </div>
-                            <a class="btn btn-secondary"  href="javascript:history.back()">취소</a>
-                            <button type="submit" class="btn btn-primary ">회원가입</button>
+                            <div class="m-3">
+                                <a class="btn btn-secondary" href="javascript:history.back()">취소</a>
+                                <button type="submit" class="btn btn-primary ">등록</button>
+                            </div>
+
                         </form>
                     </div>
                 </div>

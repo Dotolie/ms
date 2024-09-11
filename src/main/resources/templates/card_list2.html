@@ -1,0 +1,123 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <!-- Start of Topbar -->
+    <!--        <div th:replace="~{left}"></div>-->
+    <nav th:replace="~{navbar :: navbarFragment}"></nav>
+    <!-- End of Topbar -->
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 my-4">
+            <h1 class="h3 mb-0 text-gray-800">카드 리스트</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+        </div>
+
+
+        <div class="row my-4">
+            <div class="col-12">
+                <div class="card shadow">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <a th:href="@{/card/create}" class="btn btn-primary">카드 등록하기</a>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group">
+                                    <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+                                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="conts"></div>
+
+
+                        <form th:action="@{/card/list2}" method="post" id="searchForm">
+                            <input type="text" id="kw" name="kw" th:value="${kw}">
+                            <input type="text" id="page" name="page" th:value="0">
+<!--                            <input type="text" id="page" name="page" th:value="${paging.number}">-->
+<!--                            <input type="text" id="test1" name="test1" th:value="${tests.size() > 0 ? tests[0].id : '' }">-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- End of Main Content -->
+
+    <div th:replace="~{foot :: footFragment}"></div>
+
+    <script layout:fragment="script" type='text/javascript'>
+        function getReplayList() {
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            var form = $('#searchForm')[0];
+            var formData = new FormData(form);
+
+
+            $.ajax({
+                url: "/card/list2",
+                type: "post",
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "html",
+
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    // console.log("rcv="+ JSON.stringify(data));
+                    item.innerHTML = data;
+                },
+                error: function () {
+                    alert('조회에러');
+                },
+                complete: function () {
+                    const page_elements = document.getElementsByClassName("page-link");
+                    Array.from(page_elements).forEach(function (element) {
+                        element.addEventListener('click', function () {
+                            document.getElementById('page').value = this.dataset.page;
+                            getReplayList();
+                        });
+                    });
+                }
+            });
+        }
+
+        const page_elements = document.getElementsByClassName("page-link");
+        Array.from(page_elements).forEach(function (element) {
+            element.addEventListener('click', function () {
+                document.getElementById('page').value = this.dataset.page;
+                // document.getElementById('searchForm').submit();
+                getReplayList();
+            });
+        });
+        const btn_search = document.getElementById("btn_search");
+        btn_search.addEventListener('click', function () {
+            document.getElementById('kw').value = document.getElementById('search_kw').value;
+            document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+            // document.getElementById('searchForm').submit();
+            getReplayList();
+        });
+
+
+
+
+
+        const item = document.getElementById('conts');
+        $(document).ready(() => {
+            // item.innerHTML = "<h1>Hello</h1>";
+            getReplayList();
+        });
+    </script>
+</div>
+</html>

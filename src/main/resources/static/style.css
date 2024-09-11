@@ -123,3 +123,20 @@ table tr:hover {
 	text-decoration: none;
 	background-color: #eaecf4;
 }
+
+.scrollbar {
+	/*width: 250px;*/
+	/*height: 250px;*/
+	overflow-y: scroll; /*  */
+}
+
+/* 스크롤바의 폭 너비 */
+.scrollbar::-webkit-scrollbar {
+	width: 7px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+	background: rgb(147, 147, 147); /* 스크롤바 색상 */
+	border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+

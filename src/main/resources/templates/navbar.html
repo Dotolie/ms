@@ -20,6 +20,10 @@
 				<li class="nav-item px-4">
 					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/card/list}">카드리스트</a>
 				</li>
+
+				<li class="nav-item px-4">
+					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/test/list}">시험시나리오</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ms-auto">
 				<div class="topbar-divider d-none d-sm-block"></div>

@@ -15,77 +15,124 @@
         </div>
 
 
-        <div class="row my-3">
-            <div class="col-8">
-                <a th:href="@{/card/create}" class="btn btn-primary">카드 등록하기</a>
-            </div>
-            <div class="col-4">
-                <div class="input-group">
-                    <input type="text" id="search_kw" class="form-control" th:value="${kw}">
-                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+        <div class="row my-4">
+            <div class="col-12">
+                <div class="card shadow">
+
+<!--                    <div class="card-header">-->
+<!--                        <label id="card-list">카드리스트</label>-->
+<!--                    </div>-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <a th:href="@{/card/create}" class="btn btn-primary">카드 등록하기</a>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group">
+                                    <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+                                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table my-4">
+                            <thead class="table-secondary">
+                            <tr class="text-center">
+                                <th>번호</th>
+                                <th>제품명</th>
+                                <th>제품코드</th>
+                                <th>일련번호</th>
+                                <th>캐비넷</th>
+                                <th>호기</th>
+                                <th>렉</th>
+                                <th>슬롯</th>
+                                <th>작성자</th>
+                                <th>작성일시</th>
+                                <th>테스트</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center" th:each="card, loop : ${paging}">
+                                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                                <td class="text-start">
+                                    <a th:href="@{|/card/list/${card.id}|}" th:text="${card.partName}"></a>
+                                </td>
+                                <td th:text="${card.partCode}"></td>
+                                <td th:text="${card.serialNumber}"></td>
+                                <td th:text="${card.compCabinet}"></td>
+                                <td th:text="${card.compLocation}"></td>
+                                <td th:text="${card.compRack}"></td>
+                                <td th:text="${card.compSlot}"></td>
+                                <td th:text="${card.author.username}"></td>
+                                <td th:text="${#temporals.format(card.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                                <td><input type="checkbox" th:name="testing" th:value="${card.id}"
+                                           th:checked="${card.id == 1} ?  'checked'"
+                                           th:data-indexval="${loop.index}"
+                                           onclick="getCheckElm()"/></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- 페이징처리 시작 -->
+                        <div th:if="${!paging.isEmpty()}">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                                    <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+                                        <span>이전</span>
+                                    </a>
+                                </li>
+                                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                                    th:classappend="${page == paging.number} ? 'active'" class="page-item">
+                                    <a th:text="${page}" class="page-link" href="javascript:void(0)"
+                                       th:data-page="${page}"></a>
+                                </li>
+                                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                                    <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+                                        <span>다음</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 페이징처리 끝 -->
+                        <form th:action="@{/card/list}" method="get" id="searchForm">
+                            <input type="text" id="kw" name="kw" th:value="${kw}">
+                            <input type="text" id="page" name="page" th:value="${paging.number}">
+                            <input type="text" id="test1" name="test1" th:value="${tests.size() > 0 ? tests[0].id : '' }">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <table class="table">
-                <thead class="table-secondary">
-                <tr class="text-center">
-                    <th>번호</th>
-                    <th>제품명</th>
-                    <th>제품코드</th>
-                    <th>일련번호</th>
-                    <th>캐비넷</th>
-                    <th>호기</th>
-                    <th>렉</th>
-                    <th>슬롯</th>
-                    <th>작성자</th>
-                    <th>작성일시</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="text-center" th:each="card, loop : ${paging}">
-                    <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-                    <td class="text-start">
-                        <a th:href="@{|/card/list/${card.id}|}" th:text="${card.partName}"></a>
-                    </td>
-                    <td th:text="${card.getPartCode()}"></td>
-                    <td th:text="${card.getSerialNumber()}"></td>
-                    <td th:text="${card.getCompCabinet()}"></td>
-                    <td th:text="${card.getCompLocation()}"></td>
-                    <td th:text="${card.getCompRack()}"></td>
-                    <td th:text="${card.getCompSlot()}"></td>
-                    <td th:text="${card.getAuthor().getUsername()}"></td>
-                    <td th:text="${#temporals.format(card.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 페이징처리 시작 -->
-            <div th:if="${!paging.isEmpty()}">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
-                            <span>이전</span>
-                        </a>
-                    </li>
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                        th:classappend="${page == paging.number} ? 'active'" class="page-item">
-                        <a th:text="${page}" class="page-link" href="javascript:void(0)"
-                           th:data-page="${page}"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
-                            <span>다음</span>
-                        </a>
-                    </li>
-                </ul>
+
+
+
+        <div class="row my-4">
+            <div class="col-sm-5 col-md-4 col-lg-3 col-lg-2 my-2"  th:each="card, loop :${tests}">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <label id="name" th:text="@{|Slot ${loop.index} Test|}">slot</label>
+                    </div>
+                    <div class="card-body">
+                        <ul style="list-style:none;">
+                            <li>
+                                <label>ID : </label>
+                                <a th:text="${card.id}" id="datavalue" th:data-v1="${card.id}"></a>
+                            </li>
+                            <li>
+                                <label>S/N : </label>
+                                <a th:text="${card.serialNumber}"></a>
+                            </li>
+                            <li>
+                                <label>PartCode : </label>
+                                <a th:text="${card.partCode}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <!-- 페이징처리 끝 -->
-            <form th:action="@{/card/list}" method="get" id="searchForm">
-                <input type="hidden" id="kw" name="kw" th:value="${kw}">
-                <input type="hidden" id="page" name="page" th:value="${paging.number}">
-            </form>
         </div>
+
+
     </div>
     <!-- End of Main Content -->
 
@@ -96,6 +143,14 @@
         Array.from(page_elements).forEach(function (element) {
             element.addEventListener('click', function () {
                 document.getElementById('page').value = this.dataset.page;
+
+                let item = document.getElementById('datavalue');
+
+                if (item != null) {
+                    console.log("vc1="+item.dataset);
+                    document.getElementById('test1').value = item.dataset.v1;
+                }
+
                 document.getElementById('searchForm').submit();
             });
         });
@@ -105,6 +160,34 @@
             document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
             document.getElementById('searchForm').submit();
         });
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function getCheckElm() {
+            const queary = "input[name='testing']:checked"
+            const selectedElm = document.querySelectorAll(queary);
+            console.log(selectedElm);
+
+            const page = [[${paging}]];
+
+            const elmName = document.getElementById('name');
+            const elmCont1 = document.getElementById('cont1');
+
+            console.log(elmName);
+            console.log(elmCont1);
+
+            let result = '';
+            selectedElm.forEach((one) => {
+                console.log(one.value);
+                console.log(page.content[one.value]);
+                let idx = one.dataset.indexval;
+                console.log(idx);
+                console.log(page.content[idx].partName);
+                elmCont1.innerText = page.content[idx].serialNumber;
+            })
+        }
+
+        /*]]>*/
     </script>
 </div>
 </html>
