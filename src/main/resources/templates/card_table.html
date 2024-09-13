@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="text-center" th:each="card, loop : ${paging}">
+    <tr class="text-center" th:id="@{|table_${loop.index}|}" th:each="card, loop : ${paging}">
         <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
         <td class="text-start">
             <a th:href="@{|/card/list/${card.id}|}" th:text="${card.partName}"></a>
@@ -29,9 +29,7 @@
         <td th:text="${card.author.username}"></td>
         <td th:text="${#temporals.format(card.createDate, 'yyyy-MM-dd HH:mm')}"></td>
         <td><input type="checkbox" th:name="testing" th:value="${card.id}"
-                   th:checked="${card.id == 1} ?  'checked'"
-                   th:data-indexval="${loop.index}"
-                   onclick="getCheckElm()"/></td>
+                   onclick="getCheckElm(this)"/></td>
 
     </tr>
     </tbody>

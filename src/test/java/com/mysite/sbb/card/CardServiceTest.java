@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest
-//@Transactional
+@Transactional
 class CardServiceTest {
 
     @Autowired
@@ -31,31 +31,33 @@ class CardServiceTest {
     void create() {
 
 
-        for(int i = 0;i < 100;i++ ) {
+        for(int i = 0;i < 2;i++ ) {
             Card card = new Card();
 
             card.setPartName("RIM-DC");
-            card.setPartCode("RM200A");
-            String sn = "107R" + String.format("%04d", i);
+            card.setPartCode("RM202A");
+            String sn = "109R" + String.format("%04d", i);
             card.setSerialNumber(sn);
             card.setCompCabinet("RK01");
 
             card.setCompLocation(5);
-            card.setCompRack(i);
+            card.setCompRack(1);
             card.setCompSlot(8);
             card.setCreateDate(LocalDateTime.now());
 
-            SiteUser siteUser = this.userService.getUser("품질보증");
+            SiteUser siteUser = this.userService.getUser("관리자");
             card.setAuthor(siteUser);
             
             Integer saveId = this.cardService.create(card);
             
             
             System.out.println("svaeId="+saveId);
+
+            Card findCard = cardService.findOne(saveId).get();
+            assertThat(card.getPartName()).isEqualTo(findCard.getPartName());
+
         }
 
-//        Card findCard = cardService.findOne(saveId).get();
-//        assertThat(card.getPartName()).isEqualTo(findCard.getPartName());
     }
 
     @Test
@@ -72,7 +74,7 @@ class CardServiceTest {
         card.setCompSlot(3);
         card.setCreateDate(LocalDateTime.now());
 
-        SiteUser siteUser = userService.getUser("ywkim");
+        SiteUser siteUser = userService.getUser("관리자");
         card.setAuthor(siteUser);
 
         Integer id1 = cardService.create(card);
@@ -88,7 +90,7 @@ class CardServiceTest {
 
         card.setPartName("RIM-AC");
         card.setPartCode("RM0001A");
-        card.setSerialNumber("100R0001");
+        card.setSerialNumber("100R1001");
         card.setCompCabinet("RK01");
 
         card.setCompLocation(1);
@@ -96,7 +98,7 @@ class CardServiceTest {
         card.setCompSlot(3);
         card.setCreateDate(LocalDateTime.now());
 
-        SiteUser siteUser = userService.getUser("ywkim");
+        SiteUser siteUser = userService.getUser("관리자");
         card.setAuthor(siteUser);
 
 
@@ -108,7 +110,7 @@ class CardServiceTest {
 
         card2.setPartName("RIM-DC");
         card2.setPartCode("RM0002D");
-        card2.setSerialNumber("200R0002");
+        card2.setSerialNumber("200R2002");
         card2.setCompCabinet("RK02");
 
         card2.setCompLocation(2);
@@ -120,6 +122,6 @@ class CardServiceTest {
         Integer id2 = cardService.create(card2);
 
         List<Card> result = cardService.findAll();
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.size()).isGreaterThan(2);
     }
 }

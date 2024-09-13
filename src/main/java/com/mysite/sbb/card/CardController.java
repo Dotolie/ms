@@ -49,19 +49,20 @@ public class CardController {
 
 
     @GetMapping("/list2")
-    public String list2(Model model, @RequestParam(value = "kw", defaultValue = "") String kw) {
+    public String list2(Model model, Principal principal, @RequestParam(value = "kw", defaultValue = "") String kw) {
         model.addAttribute("kw", kw);
+        model.addAttribute("name", principal.getName());
         return "card_list2";
     }
 
 
     @PostMapping("/list2")
     public String response(Model model, @ModelAttribute(value = "kw") String kw, @ModelAttribute(value="page") Integer page) {
-
         log.info("kw {}, page {}", kw,page);
         Page<Card> paging = this.cardService.getList(page, kw);
 
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
 
         return "card_table";
     }

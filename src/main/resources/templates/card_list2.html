@@ -5,6 +5,23 @@
     <nav th:replace="~{navbar :: navbarFragment}"></nav>
     <!-- End of Topbar -->
 
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+        <ul>
+            <li>
+                a
+            </li>
+            <li>
+                b
+            </li>
+        </ul>
+    </div>
+
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -15,10 +32,9 @@
         </div>
 
 
-        <div class="row my-4">
-            <div class="col-12">
+        <div class="row my-4 justify-content-center">
+            <div class="col-xxl-10 ">
                 <div class="card shadow">
-
                     <div class="card-body">
                         <div class="row">
                             <div class="col-8">
@@ -39,23 +55,37 @@
                         <form th:action="@{/card/list2}" method="post" id="searchForm">
                             <input type="text" id="kw" name="kw" th:value="${kw}">
                             <input type="text" id="page" name="page" th:value="0">
-<!--                            <input type="text" id="page" name="page" th:value="${paging.number}">-->
-<!--                            <input type="text" id="test1" name="test1" th:value="${tests.size() > 0 ? tests[0].id : '' }">-->
+                            <!--                            <input type="text" id="page" name="page" th:value="${paging.number}">-->
+                            <!--                            <input type="text" id="test1" name="test1" th:value="${tests.size() > 0 ? tests[0].id : '' }">-->
+                        </form>
+                        <form th:action="@{/card/list2}" method="post" id="testForm">
+                            <label for="index">번호</label><input type="text" id="index" name="index">
+                            <label for="partName">픔명</label><input type="text" id="partName" name="partName" >
+                            <label for="serialNumber">일련번호</label><input type="text" id="serialNumber" name="serialNumber" >
+                            <input type="submit">
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
     <!-- End of Main Content -->
 
     <div th:replace="~{foot :: footFragment}"></div>
 
     <script layout:fragment="script" type='text/javascript'>
+        function getCheckElm(value) {
+            const elm = value.parentElement.parentElement;
+            const index = elm.getElementsByTagName('td')[0].innerText;
+            const partName = elm.getElementsByTagName('td')[1].innerText;
+            const serialNumber = elm.getElementsByTagName('td')[3].innerText;
+
+            console.log(elm);
+
+            document.getElementById('index').value = index;
+            document.getElementById('partName').value = partName;
+            document.getElementById('serialNumber').value = serialNumber;
+        }
         function getReplayList() {
             var header = $("meta[name='_csrf_header']").attr('content');
             var token = $("meta[name='_csrf']").attr('content');
@@ -71,7 +101,7 @@
                 processData: false,
                 dataType: "html",
 
-                beforeSend: function(xhr){
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (data) {
@@ -108,9 +138,6 @@
             // document.getElementById('searchForm').submit();
             getReplayList();
         });
-
-
-
 
 
         const item = document.getElementById('conts');
